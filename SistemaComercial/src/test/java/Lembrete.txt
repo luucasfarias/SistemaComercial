@@ -1,0 +1,14 @@
+REALIZAR TODAS AS VERIFICAÇÕES DE CLASSES DO PACOTE MODEL, AFIM DE NORMALIZAR E PADRONIZAR A ESTRUTURA FISICA DAS
+TABELAS NO BANCO DE DADOS.
+
+VERIFICAR AINDA TODOS OS FORMULARIOS PARA FIM DE CORREÇÃO DE ERROS;
+
+ERRATA: RETIREI AS DEPENDENCIAS DO LOG4J E COMMONS, POIS ESTAVA DANDO CONFLITO NO SISTEMA, POR MOTIVO AINDA 
+NÃO SOLUCIONADO, POSTERIOR A RETIRADA DO ARQUIVO COMMMONS E LOG4J O SISTEMA EXECUTOU UM TESTE DE PERSISTENCIA
+REALIZADO COM PLENO SUCESSO. A EXCLUSÃO DESTES DOIS ARQUIVO CAUSOU UMA PEQUENA ALTERAÇÃO NO PACOTE UTIL.JSF NA
+CLASE JSFEEXCEPTIONHANDLER ONDE TEM UMA LINHA COMENTADA PARA QUE UM COMANDO NÃO SEJA COMPILADO.
+
+estou parando o sistema hoje em 25/09/2016 as 22:07 na parte em que fiz a transação entre a classe de repositorio produtos, com a classe
+transaction do pacote util.jpa, fiz na classe service, a regra de negocio para salvar produtos e limpar.
+a classe transaction serve para iniciar uma transação segura, salvar o objeto sem falhas, e colocar em ação o rolback em caso de falha
+antes da transação ser comitada.

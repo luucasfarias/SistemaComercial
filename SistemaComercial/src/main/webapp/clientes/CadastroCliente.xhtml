@@ -1,0 +1,73 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
+	<ui:define name="titulo">Cadastro de cliente</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+
+			<h1>Cadastro de clinte</h1>
+
+			<p:toolbar style="margin-top:21px;">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/clientes/CadastroCliente" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroClienteBean.salvar}" ajax="true" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button title="Pesquisar" icon="ui-icon-search" iconPos="right" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="margin-top:20px; width:100%;" columnClasses="rotulo, campo">
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" value="#{cadastroClienteBean.cliente.nome}"
+					size="60" maxlength="60" required="true"
+					requiredMessage="Este campo Nome é obrigatorio." placeholder="LfSoftware"/>
+
+				<p:outputLabel value="E-mail" for="email" />
+				<p:inputText id="email" value="#{cadastroClienteBean.cliente.email}"
+					size="60" maxlength="80" required="true"
+					requiredMessage="Este campo E-mail é obrigatorio."
+					validatorMessage="O e-mail informado está inválido" placeholder="seunome@lfsoftware.com">
+					<f:validateRegex pattern="[a-zA-z0-9\-\_\.]+@[a-zA-z0-9\-\_\.]+" />
+				</p:inputText>
+
+
+				<p:outputLabel value="CPF" for="cpf" />
+				<p:inputText id="cpf"
+					value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"
+					size="10" maxlength="15" required="true"
+					requiredMessage="Este campo CPF é obrigatorio." placeholder="88888888"/>
+
+
+				<p:outputLabel value="Tipo pessoa" />
+				<h:outputText value="#{cadastroClienteBean.cliente.tipoPessoa}" />
+
+
+			</p:panelGrid>
+
+			<p:separator style="margin-top: 20px" />
+
+			<p:panelGrid columns="2" id="pai"
+				style="margin-top:20px; width:100%;" columnClasses="rotulo, campo">
+
+
+
+			</p:panelGrid>
+
+
+
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

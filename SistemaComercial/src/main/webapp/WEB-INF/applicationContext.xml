@@ -1,0 +1,35 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/security
+						http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<beans:bean id="app" class="br.com.sistemacomercial.security.App" />
+
+	<http pattern="/Login.xhtml" security="none" />
+	<http pattern="/Erro.xhtml" security="none" />
+	<http pattern="/javax.faces.resource/**" security="none" /> <!-- Aqui liberando a segurança para as bibliotecas resources, como css, 
+		js, images -->
+
+	<!-- Nesta parte do sistema é onde é feita a autenticação de permissões 
+		de acesso, via spring security -->
+	<!-- Neste escopo esta configurado quem pode ter acesso -->
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/Home.xhtml" access="isAuthenticated()" /> <!-- Aqui libera a todo usuario que tiver autenticado -->
+		<intercept-url pattern="/pedidos/**"
+			access="hasAnyRole('VENDEDORES', 'AUXILIARES', 'ADMINISTRADORES')" /> <!-- Aqui libera apenas a estes usuarios -->
+		<intercept-url pattern="/produtos/**" access="hasAnyRole('ADMINISTRADORES')" /> <!-- Aqui libera apenas a este Admim -->
+		<intercept-url pattern="/clientes/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/**" access="denyAll" /> <!-- Semelhante ao que se faz no squid,aqui é um bloquei a todos que acessarem 
+			o sistema -->
+	</http>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="app">
+			<!-- <password-encoder hash="md5" /> esta tag serve para pegar o texto 
+				da senha que tiver criptografado -->
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

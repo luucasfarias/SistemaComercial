@@ -1,0 +1,75 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastro.editando ? 'Edição de Produtos' : 'Cadastro de Novo produto'}</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="produto" value="#{cadastro.produto}" />
+			<f:event listener="#{cadastro.inicializar}" type="preRenderView" />
+		</f:metadata>
+		<h:form>
+			<h1>#{cadastro.editando ? 'Edição de Produtos' : 'Cadastro de
+				Novo produto'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top:21px;">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/produtos/CadastroProduto" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastro.salvar}" ajax="false"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button title="Pesquisar" icon="ui-icon-search" iconPos="right" outcome="/produtos/PesquisaProduto" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="margin-top:20px; width:100%;" columnClasses="rotulo, campo">
+				<p:outputLabel value="SKU" for="sku" />
+				<p:inputText id="sku" size="10" maxlength="10"
+					value="#{cadastro.produto.sku}" />
+
+				<p:outputLabel value="Nome do produto" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80"
+					value="#{cadastro.produto.nome}" />
+
+				<p:outputLabel value="Categoria" for="categoria" />
+				<p:selectOneMenu id="categoria" value="#{cadastro.categoriaPai}">
+					<f:selectItem itemLabel="Selecione a categoria" />
+					<f:selectItems value="#{cadastro.categoriasRaizes}" var="categoria"
+						itemValue="#{categoria}" itemLabel="#{categoria.descricao}" />
+					<!-- ATENÇÃO NO ITEMVALUE -->
+					<p:ajax listener="#{cadastro.carregarSubcategorias}"
+						update="subcategoria" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Subcategoria" for="subcategoria" />
+				<p:selectOneMenu id="subcategoria"
+					value="#{cadastro.produto.categoria}">
+					<f:selectItem itemLabel="Selecione a subcategoria" />
+					<f:selectItems value="#{cadastro.subcategorias}" var="subcategoria"
+						itemValue="#{subcategoria}" itemLabel="#{subcategoria.descricao}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Valor Unitário" for="valor-unitario" />
+				<p:inputText id="valor-unitario" size="10" maxlength="10"
+					styleClass="moeda" value="#{cadastro.produto.valorUnitario}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Estoque" for="estoque" />
+				<p:inputText id="estoque" size="10" maxlength="5"
+					value="#{cadastro.produto.quantidadeEstoque}" />
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
